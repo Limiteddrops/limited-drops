@@ -12,25 +12,38 @@
       color: white;
       font-family: sans-serif;
       margin: 0;
-      padding: 20px;
+      padding: 15px;
     }
 
     h1 {
       text-align: center;
     }
 
+    .categories {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+
+    .cat {
+      background: #1a1a1a;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
-      margin-top: 20px;
     }
 
     .card {
       background: #1a1a1a;
       border-radius: 15px;
       padding: 10px;
-      text-align: center;
     }
 
     .card img {
@@ -38,14 +51,24 @@
       border-radius: 10px;
     }
 
+    .title {
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+    .price {
+      color: #00ffae;
+      font-weight: bold;
+    }
+
     .btn {
-      margin-top: 10px;
+      margin-top: 8px;
+      width: 100%;
       padding: 10px;
       background: red;
       border: none;
       border-radius: 10px;
       color: white;
-      width: 100%;
     }
   </style>
 </head>
@@ -54,29 +77,59 @@
 
 <h1>🔥 Limited Drops</h1>
 
-<div class="grid">
-
-  <div class="card">
-    <img src="https://via.placeholder.com/200">
-    <p>LV Bag</p>
-    <button class="btn" onclick="buy()">Buy</button>
-  </div>
-
-  <div class="card">
-    <img src="https://via.placeholder.com/200">
-    <p>Rolex Watch</p>
-    <button class="btn" onclick="buy()">Buy</button>
-  </div>
-
+<div class="categories">
+  <div class="cat" onclick="filter('all')">All</div>
+  <div class="cat" onclick="filter('shoes')">Shoes</div>
+  <div class="cat" onclick="filter('bags')">Bags</div>
 </div>
+
+<div class="grid" id="products"></div>
 
 <script>
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-function buy() {
-  tg.openTelegramLink("https://t.me/luxuryrussians");
+const items = [
+  {
+    name: "Nike Air Force",
+    price: "$120",
+    category: "shoes",
+    img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+  },
+  {
+    name: "Luxury Bag",
+    price: "$350",
+    category: "bags",
+    img: "https://images.unsplash.com/photo-1593032465175-481ac7f401a0"
+  }
+];
+
+function render(list) {
+  const container = document.getElementById("products");
+  container.innerHTML = "";
+
+  list.forEach(item => {
+    container.innerHTML += `
+      <div class="card">
+        <img src="${item.img}">
+        <div class="title">${item.name}</div>
+        <div class="price">${item.price}</div>
+        <button class="btn" onclick="buy('${item.name}')">Buy</button>
+      </div>
+    `;
+  });
 }
+
+function filter(cat) {
+  if (cat === "all") return render(items);
+  render(items.filter(i => i.category === cat));
+}
+
+function buy(name) {
+  tg.openTelegramLink("https://t.me/luxuryrussians?text=Хочу купить: " + name);
+}
+
+render(items);
 </script>
 
 </body>
