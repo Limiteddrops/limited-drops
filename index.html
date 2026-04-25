@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Limited Drops</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+
+<body style="background:#0f0f0f; color:white; text-align:center; font-family:sans-serif;">
+
+<h1>🔥 Limited Drops</h1>
+<p>Luxury resale from Dubai & Europe</p>
+
+<button onclick="buy()" style="padding:15px 25px; background:red; color:white; border:none; border-radius:10px;">
+Купить
+</button>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.expand();
+
+function buy() {
+  tg.openTelegramLink("https://t.me/luxuryrussians");
+}
+</script>
+
+</body>
+</html>
